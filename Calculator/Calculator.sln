@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculation", "Calculation\Calculation.csproj", "{BA44F687-9913-4415-8B14-A527A5B03293}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculation.NetStandard", "Calculation.NetStandard\Calculation.NetStandard.csproj", "{D5D42F27-92EE-41BE-9E90-F8F7729E7795}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BA44F687-9913-4415-8B14-A527A5B03293}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA44F687-9913-4415-8B14-A527A5B03293}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA44F687-9913-4415-8B14-A527A5B03293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D42F27-92EE-41BE-9E90-F8F7729E7795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D42F27-92EE-41BE-9E90-F8F7729E7795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D42F27-92EE-41BE-9E90-F8F7729E7795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D42F27-92EE-41BE-9E90-F8F7729E7795}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
