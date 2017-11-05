@@ -49,19 +49,20 @@
             this.btnSubtract = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEquals = new System.Windows.Forms.Button();
+            this.lbHistory = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // lblResult
             // 
-            this.lblResult.AutoSize = true;
-            this.lblResult.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResult.Location = new System.Drawing.Point(251, 0);
+            this.lblResult.Location = new System.Drawing.Point(24, 12);
             this.lblResult.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(51, 55);
+            this.lblResult.Size = new System.Drawing.Size(262, 55);
             this.lblResult.TabIndex = 0;
             this.lblResult.Text = "0";
+            this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnC
             // 
@@ -72,6 +73,7 @@
             this.btnC.TabIndex = 1;
             this.btnC.Text = "C";
             this.btnC.UseVisualStyleBackColor = true;
+            this.btnC.Click += new System.EventHandler(this.btnC_Click);
             // 
             // btnCE
             // 
@@ -82,6 +84,7 @@
             this.btnCE.TabIndex = 1;
             this.btnCE.Text = "CE";
             this.btnCE.UseVisualStyleBackColor = true;
+            this.btnCE.Click += new System.EventHandler(this.btnCE_Click);
             // 
             // btnBackspace
             // 
@@ -279,11 +282,21 @@
             this.btnEquals.UseVisualStyleBackColor = true;
             this.btnEquals.Click += new System.EventHandler(this.btnEquals_Click);
             // 
+            // lbHistory
+            // 
+            this.lbHistory.FormattingEnabled = true;
+            this.lbHistory.Location = new System.Drawing.Point(315, 12);
+            this.lbHistory.Name = "lbHistory";
+            this.lbHistory.Size = new System.Drawing.Size(178, 316);
+            this.lbHistory.TabIndex = 2;
+            this.lbHistory.SelectedIndexChanged += new System.EventHandler(this.lbHistory_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 338);
+            this.ClientSize = new System.Drawing.Size(505, 338);
+            this.Controls.Add(this.lbHistory);
             this.Controls.Add(this.btnEquals);
             this.Controls.Add(this.btnDecimal);
             this.Controls.Add(this.btnAdd);
@@ -308,7 +321,6 @@
             this.Name = "Form1";
             this.Text = "Calculator";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -335,6 +347,7 @@
         private System.Windows.Forms.Button btnSubtract;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEquals;
+        private System.Windows.Forms.ListBox lbHistory;
     }
 }
 
