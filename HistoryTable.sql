@@ -1,0 +1,21 @@
+USE [Calculator]
+GO
+
+/****** Object:  Table [dbo].[History]    Script Date: 11/5/2017 11:59:53 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[History](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Calculation] [nvarchar](max) NOT NULL,
+	[Answer] [decimal](18, 8) NOT NULL,
+ CONSTRAINT [PK_History] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
