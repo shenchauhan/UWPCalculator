@@ -29,34 +29,34 @@ namespace Calculator
 
         private void btnDivide_Click(object sender, EventArgs e)
         {
-            result = double.Parse(lblResult.Text);
+            Calculate();
             operation = "/";
+            calculationHistory.AddToCalculation(lblResult.Text + operation);
             lblResult.Text = operation;
-            calculationHistory.AddToCalculation(result + operation);
         }
 
         private void btnMultiply_Click(object sender, EventArgs e)
         {
-            result = double.Parse(lblResult.Text);
+            Calculate();
             operation = "x";
+            calculationHistory.AddToCalculation(lblResult.Text + operation);
             lblResult.Text = operation;
-            calculationHistory.AddToCalculation(result + operation);
         }
 
         private void btnSubtract_Click(object sender, EventArgs e)
         {
-            result = double.Parse(lblResult.Text);
+            Calculate();
             operation = "-";
+            calculationHistory.AddToCalculation(lblResult.Text + operation);
             lblResult.Text = operation;
-            calculationHistory.AddToCalculation(result + operation);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            result = double.Parse(lblResult.Text);
+            Calculate();
             operation = "+";
+            calculationHistory.AddToCalculation(lblResult.Text + operation);
             lblResult.Text = operation;
-            calculationHistory.AddToCalculation(result + operation);
         }
 
         private void btnEquals_Click(object sender, EventArgs e)
@@ -71,6 +71,7 @@ namespace Calculator
             lbHistory.SelectedIndexChanged += new EventHandler(lbHistory_SelectedIndexChanged);
 
             result = 0;
+            operation = string.Empty;
         }
 
         private void Calculate()
@@ -91,6 +92,9 @@ namespace Calculator
                 case "x":
                     result *= x;
                     break;
+                default:
+                    result = x;
+                    break;
             }
         }
 
@@ -109,6 +113,7 @@ namespace Calculator
         {
             result = 0;
             lblResult.Text = "0";
+            operation = string.Empty;
             calculationHistory.Clear();
         }
     }
