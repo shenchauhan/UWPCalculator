@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calculation;
+using System;
 using System.Windows.Forms;
 
 namespace Calculator

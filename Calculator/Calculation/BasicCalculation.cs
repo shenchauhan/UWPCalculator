@@ -9,6 +9,7 @@ namespace Calculation
 {
     public class BasicCalculation
     {
+        private const string connectionString = "Data Source=SHEN-HOME;Initial Catalog=Calculator;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public double Add(double x, double y)
         {
             return x + y;
@@ -31,23 +32,27 @@ namespace Calculation
 
         public void AddToHistory(string calculation, double value)
         {
-            using (SqlConnection sqlConnection = new SqlConnection())
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
-                var sqlCommand = new SqlCommand($"INSERT INTO[dbo].[History] ([Calculation] ,[Answer]) VALUES ({calculation}, {value})");
-                sqlConnection.Open();
-                sqlCommand.ExecuteNonQuery();
+                using (var sqlCommand = new SqlCommand($"INSERT INTO[dbo].[History] ([Calculation] ,[Answer]) VALUES ('{calculation}', '{value}')", sqlConnection))
+                {
+                    sqlConnection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
             }
         }
 
         public double FetchFromHistory(string calculation)
         {
-            using (SqlConnection sqlConnection = new SqlConnection())
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
-                var sqlCommand = new SqlCommand($"SELECT [ID], [Calculation], [Answer] FROM [dbo].[History] WHERE [ID] ='{calculation}'");
-                sqlConnection.Open();
-                var results = sqlCommand.ExecuteScalar();
+                using (var sqlCommand = new SqlCommand($"SELECT [Answer] FROM [dbo].[History] WHERE [Calculation] ='{calculation}'", sqlConnection))
+                {
+                    sqlConnection.Open();
+                    var results = sqlCommand.ExecuteScalar();
 
-                return (double)results;
+                    return double.Parse(results.ToString());
+                }
             }
         }
     }
