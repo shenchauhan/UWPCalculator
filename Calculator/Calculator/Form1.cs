@@ -19,7 +19,7 @@ namespace Calculator
 
         private void btn_Click(object sender, EventArgs e)
         {
-            if (result == 0 | lblResult.Text == "/" | lblResult.Text == "+" | lblResult.Text == "-" | lblResult.Text == "x")
+            if (lblResult.Text == "0" | lblResult.Text == "/" | lblResult.Text == "+" | lblResult.Text == "-" | lblResult.Text == "x")
             {
                 lblResult.Text = string.Empty;
             }

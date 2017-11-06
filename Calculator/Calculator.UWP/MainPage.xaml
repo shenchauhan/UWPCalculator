@@ -1,0 +1,80 @@
+﻿<Page
+    x:Class="Calculator.UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Calculator.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="ResultsTextBlock">
+            <Setter Property="FontSize" Value="144" />
+            <Setter Property="TextAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="ResultsTextBlock" Grid.ColumnSpan="4" Text="0" Style="{StaticResource ResultsTextBlock}" />
+
+        <Button Content="CE" Grid.Column="0" Grid.Row="1" Click="CEButton_Click" />
+        <Button Content="C" Grid.Column="1" Grid.Row="1" Click="CButton_Click" />
+        <Button Grid.Column="2" Grid.Row="1" Click="BackspaceButton_Click">
+            <SymbolIcon Symbol="Back" />
+        </Button>
+
+        <Button Content="1" Grid.Column="0" Grid.Row="2" Click="NumberButton_Click" />
+        <Button Content="2" Grid.Column="1" Grid.Row="2" Click="NumberButton_Click" />
+        <Button Content="3" Grid.Column="2" Grid.Row="2" Click="NumberButton_Click" />
+        <Button Content="4" Grid.Column="0" Grid.Row="3" Click="NumberButton_Click" />
+        <Button Content="5" Grid.Column="1" Grid.Row="3" Click="NumberButton_Click" />
+        <Button Content="6" Grid.Column="2" Grid.Row="3" Click="NumberButton_Click" />
+        <Button Content="7" Grid.Column="0" Grid.Row="4" Click="NumberButton_Click" />
+        <Button Content="8" Grid.Column="1" Grid.Row="4" Click="NumberButton_Click" />
+        <Button Content="9" Grid.Column="2" Grid.Row="4" Click="NumberButton_Click" />
+        <Button Content="0" Grid.Column="1" Grid.Row="5" Click="NumberButton_Click" />
+
+        <Button Content="/" Grid.Column="3" Grid.Row="1" Click="DivideButton_Click" />
+        <Button Content="x" Grid.Column="3" Grid.Row="2" Click="MultiplyButton_Click" />
+        <Button Content="-" Grid.Column="3" Grid.Row="3" Click="SubtractButton_Click" />
+        <Button Content="+" Grid.Column="3" Grid.Row="4" Click="AdditionButton_Click" />
+        <Button Content="=" Grid.Column="3" Grid.Row="5" Click="EqualsButton_Click" />
+
+
+
+        <Button Content="-/+" Grid.Column="0" Grid.Row="5" />
+        <Button Content="." Grid.Column="2" Grid.Row="5" />
+
+        <ListView Grid.Column="4" ItemsSource="{x:Bind HistoryCollection, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="HistoryItem_Click" Grid.ColumnSpan="2" Grid.RowSpan="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="36" Margin="10" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
