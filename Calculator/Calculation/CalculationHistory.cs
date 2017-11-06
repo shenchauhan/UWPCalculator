@@ -9,7 +9,7 @@ namespace Calculation
 {
     public class CalculationHistory
     {
-        private const string connectionString = "Data Source=SHEN-HOME;Initial Catalog=Calculator;Integrated Security=False;User ID=Shen;Password=P@ssw0rd;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private const string connectionString = "Data Source=SHEN-SURFACE;Initial Catalog=Calculator;Integrated Security=False;User ID=Shen;Password=P@ssw0rd;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         private readonly StringBuilder stringBuilder = new StringBuilder();
 
