@@ -158,10 +158,5 @@ namespace Calculator.UWP
         {
             ResultsTextBlock.Text = calculationHistory.FetchFromHistory(e.ClickedItem.ToString()).ToString();
         }
-
-        private void Ink_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
