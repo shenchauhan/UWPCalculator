@@ -19,6 +19,8 @@
             <Setter Property="TextAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+
+        <AcrylicBrush x:Key="MyAcrylicBrush" BackgroundSource="HostBackdrop" FallbackColor="Gray" TintColor="White" TintOpacity="0.4" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -33,7 +35,7 @@
 
         <TextBlock x:Name="ResultsTextBlock" Text="0" Style="{StaticResource ResultsTextBlock}" />
 
-        <ListView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{x:Bind HistoryCollection, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="HistoryItem_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ListView Background="{StaticResource MyAcrylicBrush}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{x:Bind HistoryCollection, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="HistoryItem_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" FontSize="36" Margin="10" />
