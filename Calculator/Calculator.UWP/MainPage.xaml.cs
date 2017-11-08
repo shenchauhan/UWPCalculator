@@ -21,7 +21,7 @@ namespace Calculator.UWP
         public MainPage()
         {
             this.InitializeComponent();
-            
+
             // Clear the database history.
             CalculationHistory.ClearHistory();
         }
@@ -38,27 +38,13 @@ namespace Calculator.UWP
 
             ResultsTextBlock.Text += (sender as Button)?.Content;
         }
-        
+
         /// <summary>
         /// Do some amazing calculations. Store calculation and result in SQL.
         /// </summary>
-        private async void EqualsButton_Click(object sender, RoutedEventArgs e)
+        private void EqualsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MyInkCanvas.InkPresenter.StrokeContainer.GetStrokes().Any())
-            {
-                var inkRecognizerContainer = new InkRecognizerContainer();
-                var results = await inkRecognizerContainer.RecognizeAsync(MyInkCanvas.InkPresenter.StrokeContainer, InkRecognitionTarget.All);
-                var recognizedText = string.Concat(results.Select(i => i.GetTextCandidates()[0]));
-
-                ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(recognizedText).ToString();
-
-                MyInkCanvas.InkPresenter.StrokeContainer.Clear();
-            }
-            else
-            {
-                ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(ResultsTextBlock.Text).ToString();
-            }
-
+            ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(ResultsTextBlock.Text).ToString();
             HistoryCollection = new ObservableCollection<string>(CalculationHistory.FetchEntireHistory());
         }
 
