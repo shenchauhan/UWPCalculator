@@ -1,23 +1,12 @@
 ﻿using Calculation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace Calculator.UWP
 {
@@ -26,21 +15,21 @@ namespace Calculator.UWP
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-
-        private double result;
-        private string operation;
-
-        private readonly CalculationHistory calculationHistory = new CalculationHistory();
-
+        private ObservableCollection<string> historyCollection;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainPage()
         {
             this.InitializeComponent();
-            calculationHistory.ClearHistory();
+            
+            // Clear the database history.
+            CalculationHistory.ClearHistory();
         }
 
-        private void NumberButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Update the UI to show what will be calculated.
+        /// </summary>
+        private void CalculatorButton_Click(object sender, RoutedEventArgs e)
         {
             if (ResultsTextBlock.Text == "0" | ResultsTextBlock.Text == "/" | ResultsTextBlock.Text == "+" | ResultsTextBlock.Text == "-" | ResultsTextBlock.Text == "x")
             {
@@ -49,78 +38,41 @@ namespace Calculator.UWP
 
             ResultsTextBlock.Text += (sender as Button)?.Content;
         }
-
-        private void Calculate()
+        
+        /// <summary>
+        /// Do some amazing calculations. Store calculation and result in SQL.
+        /// </summary>
+        private async void EqualsButton_Click(object sender, RoutedEventArgs e)
         {
-            var x = double.Parse(ResultsTextBlock.Text);
-
-            switch (operation)
+            if (MyInkCanvas.InkPresenter.StrokeContainer.GetStrokes().Any())
             {
-                case "/":
-                    result /= x;
-                    break;
-                case "+":
-                    result += x;
-                    break;
-                case "-":
-                    result -= x;
-                    break;
-                case "x":
-                    result *= x;
-                    break;
-                default:
-                    result = x;
-                    break;
+                var inkRecognizerContainer = new InkRecognizerContainer();
+                var results = await inkRecognizerContainer.RecognizeAsync(MyInkCanvas.InkPresenter.StrokeContainer, InkRecognitionTarget.All);
+                var recognizedText = string.Concat(results.Select(i => i.GetTextCandidates()[0]));
+
+                ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(recognizedText).ToString();
+
+                MyInkCanvas.InkPresenter.StrokeContainer.Clear();
             }
+            else
+            {
+                ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(ResultsTextBlock.Text).ToString();
+            }
+
+            HistoryCollection = new ObservableCollection<string>(CalculationHistory.FetchEntireHistory());
         }
 
-        private void DivideButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Fetch history item from SQL database.
+        /// </summary>
+        private void HistoryItem_Click(object sender, ItemClickEventArgs e)
         {
-            Calculate();
-            operation = "/";
-            calculationHistory.AddToCalculation(ResultsTextBlock.Text + operation);
-            ResultsTextBlock.Text = operation;
+            ResultsTextBlock.Text = CalculationHistory.FetchFromHistory(e.ClickedItem.ToString()).ToString();
         }
 
-        private void MultiplyButton_Click(object sender, RoutedEventArgs e)
-        {
-            Calculate();
-            operation = "x";
-            calculationHistory.AddToCalculation(ResultsTextBlock.Text + operation);
-            ResultsTextBlock.Text = operation;
-        }
-
-        private void SubtractButton_Click(object sender, RoutedEventArgs e)
-        {
-            Calculate();
-            operation = "-";
-            calculationHistory.AddToCalculation(ResultsTextBlock.Text + operation);
-            ResultsTextBlock.Text = operation;
-        }
-
-        private void AdditionButton_Click(object sender, RoutedEventArgs e)
-        {
-            Calculate();
-            operation = "+";
-            calculationHistory.AddToCalculation(ResultsTextBlock.Text + operation);
-            ResultsTextBlock.Text = operation;
-        }
-
-        private void EqualsButton_Click(object sender, RoutedEventArgs e)
-        {
-            Calculate();
-            calculationHistory.AddToCalculation(ResultsTextBlock.Text);
-            ResultsTextBlock.Text = result.ToString();
-            calculationHistory.AddToHistory(result);
-           
-            HistoryCollection = new ObservableCollection<string>(calculationHistory.FetchEntireHistory());
-
-            result = 0;
-            operation = string.Empty;
-        }
-
-        private ObservableCollection<string> historyCollection;
-
+        /// <summary>
+        /// Collection of all the history in the database.
+        /// </summary>
         public ObservableCollection<string> HistoryCollection
         {
             get { return historyCollection; }
@@ -131,32 +83,29 @@ namespace Calculator.UWP
             }
         }
 
-        private void RaiseProperytChanged([CallerMemberName]string propertyName = "")
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        /// <summary>
+        /// Clears the screen.
+        /// </summary>
         private void CButton_Click(object sender, RoutedEventArgs e)
         {
             ResultsTextBlock.Text = string.Empty;
         }
 
+        /// <summary>
+        /// Clears the screen.
+        /// </summary>
         private void CEButton_Click(object sender, RoutedEventArgs e)
         {
-            result = 0;
-            ResultsTextBlock.Text = "0";
-            operation = string.Empty;
-            calculationHistory.Clear();
+            ResultsTextBlock.Text = string.Empty;
         }
 
-        private void BackspaceButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        private void RaiseProperytChanged([CallerMemberName]string propertyName = "")
         {
-
-        }
-
-        private void HistoryItem_Click(object sender, ItemClickEventArgs e)
-        {
-            ResultsTextBlock.Text = calculationHistory.FetchFromHistory(e.ClickedItem.ToString()).ToString();
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
