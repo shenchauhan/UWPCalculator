@@ -18,6 +18,11 @@ namespace Calculation
         /// </summary>
         public static void AddToHistory(string calculation, double value)
         {
+            if (string.IsNullOrEmpty(calculation))
+            {
+                return;
+            }
+
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 using (var sqlCommand = new SqlCommand($"INSERT INTO[dbo].[History] ([Calculation] ,[Answer]) VALUES ('{calculation}', '{value}')", sqlConnection))
@@ -35,6 +40,11 @@ namespace Calculation
         /// <returns>The value of the calculation.</returns>
         public static double FetchFromHistory(string calculation)
         {
+            if (string.IsNullOrEmpty(calculation))
+            {
+                return 0d;
+            }
+
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 using (var sqlCommand = new SqlCommand($"SELECT [Answer] FROM [dbo].[History] WHERE [Calculation] ='{calculation}'", sqlConnection))
