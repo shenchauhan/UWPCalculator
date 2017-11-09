@@ -9,7 +9,9 @@ namespace Calculator
         public Form1()
         {
             InitializeComponent();
-            CalculationHistory.ClearHistory();
+            lbHistory.SelectedIndexChanged -= new EventHandler(lbHistory_SelectedIndexChanged);
+            lbHistory.DataSource = CalculationHistory.FetchEntireHistory();
+            lbHistory.SelectedIndexChanged += new EventHandler(lbHistory_SelectedIndexChanged);
         }
 
         private void btn_Click(object sender, EventArgs e)
@@ -45,6 +47,12 @@ namespace Calculator
         private void btnCE_Click(object sender, EventArgs e)
         {
             lblResult.Text = string.Empty;
+        }
+
+        private void ClearDatabase_Click(object sender, EventArgs e)
+        {
+            CalculationHistory.ClearHistory();
+            lbHistory.DataSource = CalculationHistory.FetchEntireHistory();
         }
     }
 }
