@@ -1,10 +1,12 @@
 ﻿using Calculation;
+using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI.Input.Inking;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -84,6 +86,11 @@ namespace Calculator.UWP
             set
             {
                 historyCollection = value;
+                if (historyCollection.Count == 10)
+                {
+                    PopToast();
+                }
+
                 RaiseProperytChanged();
             }
         }
@@ -123,6 +130,41 @@ namespace Calculator.UWP
         {
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("chartLogo", ChartButton);
             Frame.Navigate(typeof(Chart), HistoryCollection);
+        }
+
+        private void PopToast()
+        {
+            var toastContent = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "10 item badge!"
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "Congratulations!! You've got 10 items in your history."
+                            }
+                        },
+                        Attribution = new ToastGenericAttributionText()
+                        {
+                            Text = "The UWP Calculator"
+                        }
+                    }
+                },
+                Launch = "action=viewStory&storyId=92187"
+            };
+
+            // Create the toast notification
+            var toastNotif = new ToastNotification(toastContent.GetXml());
+
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
         }
     }
 }
