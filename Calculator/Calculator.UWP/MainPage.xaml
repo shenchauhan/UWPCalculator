@@ -58,7 +58,7 @@
 
             <Button Content="CE" Grid.Column="0" Grid.Row="0" Click="CEButton_Click" />
             <Button Content="C" Grid.Column="1" Grid.Row="0" Click="CButton_Click" />
-            <Button Grid.Column="2" Grid.Row="0">
+            <Button Grid.Column="2" Grid.Row="0" Click="Clear_Click">
                 <SymbolIcon Symbol="Back" />
             </Button>
 

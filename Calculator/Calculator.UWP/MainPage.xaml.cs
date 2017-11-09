@@ -21,9 +21,7 @@ namespace Calculator.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
-            // Clear the database history.
-            CalculationHistory.ClearHistory();
+            HistoryCollection = new ObservableCollection<string>(CalculationHistory.FetchEntireHistory());
         }
 
         /// <summary>
@@ -74,7 +72,7 @@ namespace Calculator.UWP
         /// </summary>
         private void CButton_Click(object sender, RoutedEventArgs e)
         {
-            ResultsTextBlock.Text = string.Empty;
+            HistoryCollection = new ObservableCollection<string>(CalculationHistory.FetchEntireHistory());
         }
 
         /// <summary>
@@ -92,6 +90,12 @@ namespace Calculator.UWP
         private void RaiseProperytChanged([CallerMemberName]string propertyName = "")
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            CalculationHistory.ClearHistory();
+            HistoryCollection = new ObservableCollection<string>();
         }
     }
 }
