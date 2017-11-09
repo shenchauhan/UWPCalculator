@@ -137,6 +137,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
+      <Version>1.0.0.7</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calculation.NetStandard\Calculation.NetStandard.csproj">

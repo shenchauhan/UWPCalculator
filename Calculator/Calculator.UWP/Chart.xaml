@@ -5,6 +5,7 @@
     xmlns:local="using:Calculator.UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -20,5 +21,23 @@
                 <Rectangle Width="50" Height="40" VerticalAlignment="Bottom" Fill="Orange" />
             </StackPanel>
         </Button>
+
+        <telerikChart:RadCartesianChart x:Name="radChart" Grid.Row="1">
+            <telerikChart:RadCartesianChart.HorizontalAxis>
+                <telerikChart:CategoricalAxis/>
+            </telerikChart:RadCartesianChart.HorizontalAxis>
+            <telerikChart:RadCartesianChart.VerticalAxis>
+                <telerikChart:LinearAxis/>
+            </telerikChart:RadCartesianChart.VerticalAxis>
+            <telerikChart:BarSeries ItemsSource="{Binding}">
+                <telerikChart:BarSeries.ValueBinding>
+                    <telerikChart:PropertyNameDataPointBinding PropertyName="Value"/>
+                </telerikChart:BarSeries.ValueBinding>
+                <telerikChart:BarSeries.CategoryBinding>
+                    <telerikChart:PropertyNameDataPointBinding PropertyName="Key"/>
+                </telerikChart:BarSeries.CategoryBinding>
+
+            </telerikChart:BarSeries>
+        </telerikChart:RadCartesianChart>
     </Grid>
 </Page>

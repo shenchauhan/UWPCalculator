@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -31,6 +32,7 @@ namespace Calculator.UWP
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ConnectedAnimationService.GetForCurrentView().GetAnimation("chartLogo").TryStart(ChartButton);
+            CalculateUserData(e.Parameter as ObservableCollection<string>);
         }
 
         private void ChartButton_Click(object sender, RoutedEventArgs e)
@@ -38,5 +40,32 @@ namespace Calculator.UWP
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("chartLogo", ChartButton);
             Frame.GoBack();
         }
+
+        private void CalculateUserData(ObservableCollection<string> historicalData)
+        {
+            var userData = new ObservableCollection<ChartItem>();
+            var random = new Random();
+
+            foreach (var item in historicalData)
+            {
+                userData.Add(new ChartItem(item, random.Next(0, 100)));
+            }
+
+            this.radChart.DataContext = userData;
+        }
     }
+
+    public class ChartItem
+    {
+        public ChartItem(string key, int value)
+        {
+            Key = key;
+            Value = value;
+        }
+
+        public string Key { get; set; }
+
+        public int Value { get; set; }
+    }
+
 }
