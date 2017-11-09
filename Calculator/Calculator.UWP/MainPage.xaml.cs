@@ -40,9 +40,23 @@ namespace Calculator.UWP
         /// <summary>
         /// Do some amazing calculations. Store calculation and result in SQL.
         /// </summary>
-        private void EqualsButton_Click(object sender, RoutedEventArgs e)
+        private async void EqualsButton_Click(object sender, RoutedEventArgs e)
         {
-            ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(ResultsTextBlock.Text).ToString();
+            if (MyInkCanvas.InkPresenter.StrokeContainer.GetStrokes().Any())
+            {
+                var inkRecognizerContainer = new InkRecognizerContainer();
+                var results = await inkRecognizerContainer.RecognizeAsync(MyInkCanvas.InkPresenter.StrokeContainer, InkRecognitionTarget.All);
+                var recognizedText = string.Concat(results.Select(i => i.GetTextCandidates()[0]));
+
+                ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(recognizedText).ToString();
+
+                MyInkCanvas.InkPresenter.StrokeContainer.Clear();
+            }
+            else
+            {
+                ResultsTextBlock.Text = Calculation.NetStandard.Calculator.Calculate(ResultsTextBlock.Text).ToString();
+            }
+
             HistoryCollection = new ObservableCollection<string>(CalculationHistory.FetchEntireHistory());
         }
 
