@@ -7,6 +7,8 @@ using System.Runtime.CompilerServices;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 namespace Calculator.UWP
 {
@@ -22,6 +24,11 @@ namespace Calculator.UWP
         {
             this.InitializeComponent();
             HistoryCollection = new ObservableCollection<string>(CalculationHistory.FetchEntireHistory());
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ConnectedAnimationService.GetForCurrentView().GetAnimation("chartLogo")?.TryStart(ChartButton);
         }
 
         /// <summary>
@@ -110,6 +117,12 @@ namespace Calculator.UWP
         {
             CalculationHistory.ClearHistory();
             HistoryCollection = new ObservableCollection<string>();
+        }
+
+        private void ChartButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("chartLogo", ChartButton);
+            Frame.Navigate(typeof(Chart), HistoryCollection);
         }
     }
 }
