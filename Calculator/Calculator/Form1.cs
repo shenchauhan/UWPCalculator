@@ -9,7 +9,6 @@ namespace Calculator
         public Form1()
         {
             InitializeComponent();
-            CalculationHistory.ClearHistory();
         }
 
         private void btn_Click(object sender, EventArgs e)
@@ -45,6 +44,11 @@ namespace Calculator
         private void btnCE_Click(object sender, EventArgs e)
         {
             lblResult.Text = string.Empty;
+        }
+
+        private void ClearDatabase_Click(object sender, EventArgs e)
+        {
+            CalculationHistory.ClearHistory();
         }
     }
 }
