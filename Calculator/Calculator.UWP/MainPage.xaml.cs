@@ -1,10 +1,15 @@
 ﻿using Calculation;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Contacts;
+using Windows.Foundation.Metadata;
+using Windows.Storage.Streams;
 using Windows.UI.Input.Inking;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
@@ -166,5 +171,108 @@ namespace Calculator.UWP
             // And send the notification
             ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
         }
+
+        private async void CustomerSupport_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the PinnedContactManager for the current user.
+            PinnedContactManager pinnedContactManager = PinnedContactManager.GetDefault();
+
+            // Check whether pinning to the taskbar is supported.
+            if (!pinnedContactManager.IsPinSurfaceSupported(PinnedContactSurface.Taskbar))
+            {
+                return;
+            }
+
+            // Get the contact list for this app.
+            ContactList list = await GetContactListAsync();
+
+            // Check if the sample contact already exists.
+            Contact contact = await list.GetContactFromRemoteIdAsync(Constants.ContactRemoteId);
+
+
+            if (contact == null)
+            {
+                // Create the sample contact.
+                contact = new Contact();
+                contact.FirstName = "Clippy";
+                contact.LastName = "";
+                contact.RemoteId = Constants.ContactRemoteId;
+                contact.Emails.Add(new ContactEmail { Address = Constants.ContactEmail });
+                contact.Phones.Add(new ContactPhone { Number = Constants.ContactPhone });
+                contact.SourceDisplayPicture = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/clippy.jpg"));
+
+                await list.SaveContactAsync(contact);
+            }
+
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5))
+            {
+                // Create a new contact annotation
+                ContactAnnotation annotation = new ContactAnnotation();
+                annotation.ContactId = contact.Id;
+
+                // Add appId and contact panel support to the annotation
+                String appId = "d9714431-a083-4f7c-a89f-fe7a38f759e4_75cr2b68sm664!App";
+                annotation.ProviderProperties.Add("ContactPanelAppID", appId);
+                annotation.SupportedOperations = ContactAnnotationOperations.ContactProfile;
+
+                // Save annotation to contact annotation list
+                // Windows.ApplicationModel.Contacts.ContactAnnotationList 
+                var annotationList = await GetContactAnnotationList();
+                await annotationList.TrySaveAnnotationAsync(annotation);
+            }
+
+            // Pin the contact to the taskbar.
+            if (!await pinnedContactManager.RequestPinContactAsync(contact, PinnedContactSurface.Taskbar))
+            {
+                // Contact was not pinned.
+                return;
+            }
+        }
+
+        private async Task<ContactAnnotationList> GetContactAnnotationList()
+        {
+            ContactAnnotationStore annotationStore = await ContactManager.RequestAnnotationStoreAsync(ContactAnnotationStoreAccessType.AppAnnotationsReadWrite);
+            if (null == annotationStore)
+            {
+                return null;
+            }
+
+            ContactAnnotationList annotationList;
+            IReadOnlyList<ContactAnnotationList> annotationLists = await annotationStore.FindAnnotationListsAsync();
+            if (0 == annotationLists.Count)
+            {
+                annotationList = await annotationStore.CreateAnnotationListAsync();
+            }
+            else
+            {
+                annotationList = annotationLists[0];
+            }
+
+            return annotationList;
+        }
+
+
+        private async Task<ContactList> GetContactListAsync()
+        {
+            ContactStore store = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AppContactsReadWrite);
+
+            IReadOnlyList<ContactList> contactLists = await store.FindContactListsAsync();
+            ContactList sampleList = contactLists.FirstOrDefault(list => list.DisplayName.Equals(Constants.ContactListName));
+
+            if (sampleList == null)
+            {
+                sampleList = await store.CreateContactListAsync(Constants.ContactListName);
+            }
+
+            return sampleList;
+        }
+    }
+
+    internal static class Constants
+    {
+        internal const string ContactRemoteId = "{D44056FA-6C0E-47BE-B984-0974B21FF59D}";
+        internal const string ContactListName = "Clippy";
+        internal const string ContactEmail = "clippy@microsoft.com";
+        internal const string ContactPhone = "4255550123";
     }
 }

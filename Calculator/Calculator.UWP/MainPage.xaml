@@ -30,7 +30,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.7*" />
-            <ColumnDefinition Width="0.3*" />
+            <ColumnDefinition Width="0.15*" />
+            <ColumnDefinition Width="0.15*" />
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="ResultsTextBlock" Text="0" Style="{StaticResource ResultsTextBlock}" />
@@ -39,10 +40,16 @@
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="50" Height="100" VerticalAlignment="Bottom" Fill="Red" />
                 <Rectangle Width="50" Height="70" VerticalAlignment="Bottom" Fill="Blue" />
-                <Rectangle Width="50" Height="40" VerticalAlignment="Bottom" Fill="Orange" />
+       
             </StackPanel>
         </Button>
-        <ListView Background="{StaticResource MyAcrylicBrush}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" ItemsSource="{x:Bind HistoryCollection, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="HistoryItem_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+        <Button Grid.Row="0" Grid.Column="2" Click="CustomerSupport_Click">
+            <SymbolIcon Symbol="People" />
+        </Button>
+
+
+        <ListView Background="{StaticResource MyAcrylicBrush}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" ItemsSource="{x:Bind HistoryCollection, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="HistoryItem_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" FontSize="36" Margin="10" />

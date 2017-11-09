@@ -103,5 +103,23 @@ namespace Calculator.UWP
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        override protected void OnActivated(IActivatedEventArgs e)
+        {
+            if (e.Kind == ActivationKind.ContactPanel)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                var rootFrame = new Frame();
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+
+                // Navigate to the page that shows the Contact UI.
+                rootFrame.Navigate(typeof(MyPeople), e);
+
+                // Ensure the current window is active
+                Window.Current.Activate();
+            }
+        }
     }
 }
