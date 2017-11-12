@@ -20,7 +20,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
-        <AcrylicBrush x:Key="MyAcrylicBrush" BackgroundSource="HostBackdrop" FallbackColor="Gray" TintColor="White" TintOpacity="0.4" />
+        <AcrylicBrush x:Key="MyAcrylicBrush" BackgroundSource="HostBackdrop" FallbackColor="White" TintColor="White" TintOpacity="0.4" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -35,7 +35,7 @@
 
         <TextBlock x:Name="ResultsTextBlock" Text="0" Style="{StaticResource ResultsTextBlock}" />
 
-        <Button x:Name="ChartButton" Click="ChartButton_Click" Grid.Row="0" Grid.Column="1" Background="Transparent">
+        <Button x:Name="ChartButton" Click="ChartButton_Click" Grid.Row="0" Grid.Column="1" Margin="0" Background="{StaticResource MyAcrylicBrush}">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="50" Height="100" VerticalAlignment="Bottom" Fill="Red" />
                 <Rectangle Width="50" Height="70" VerticalAlignment="Bottom" Fill="Blue" />
