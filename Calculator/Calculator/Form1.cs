@@ -42,6 +42,9 @@ namespace Calculator
         private void btnC_Click(object sender, EventArgs e)
         {
             lblResult.Text = string.Empty;
+            lbHistory.SelectedIndexChanged -= new EventHandler(lbHistory_SelectedIndexChanged);
+            lbHistory.DataSource = CalculationHistory.FetchEntireHistory();
+            lbHistory.SelectedIndexChanged += new EventHandler(lbHistory_SelectedIndexChanged);
         }
 
         private void btnCE_Click(object sender, EventArgs e)
