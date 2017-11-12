@@ -44,7 +44,7 @@
             </StackPanel>
         </Button>
 
-        <Button Grid.Row="0" Grid.Column="2" Click="CustomerSupport_Click">
+        <Button Grid.Row="0" Grid.Column="2" Click="CustomerSupport_Click" Margin="0" Background="{StaticResource MyAcrylicBrush}">
             <SymbolIcon Symbol="People" />
         </Button>
 
