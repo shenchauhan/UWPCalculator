@@ -47,6 +47,7 @@ namespace Calculator.UWP
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
             ApplicationView.GetForCurrentView().TitleBar.BackgroundColor = Colors.Transparent;
             ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
